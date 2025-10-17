@@ -1,11 +1,6 @@
 import Course from './Course.jsx'
 
-const Total = (props) => {
-  const total = props.parts.reduce((sum, part) => sum + part.exercises, 0)
-  return (
-    <p>total of {total} exercises</p>
-  )
-}
+
 
 const App = () => {
   const courses = [
@@ -59,7 +54,6 @@ const App = () => {
       {courses.map(course =>
       <div key={course.id}>
       <Course course={course} />
-      <Total parts={course.parts} />
       </div>
       )}
 
