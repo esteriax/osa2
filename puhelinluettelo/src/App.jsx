@@ -1,28 +1,28 @@
 import { useState } from 'react'
 
 
-
 const App = () => {
-  const [persons, setPersons] = useState([])
+
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas' }
+  ])
   const [newName, setNewName] = useState('')
 
-
-const addPerson = (event) => {
-  event.preventDefault()
-  const personObject = {
-    content: newName,
-    important: Math.random() > 0.5,
-    id: String(persons.length + 1),
+  const addPerson = (event) => {
+    event.preventDefault()
+    const personObject = {
+      name: newName,
+      id: newName,
+    }
+    setPersons(persons.concat(personObject))
+    setNewName('')
   }
 
-  setPersons(persons.concat(personObject))
-  setNewName('')
+  const handleNameChange = (event) => {
+    setNewName(event.target.value)
   }
 
-const handleNameChange = (event) => {
-  console.log(event.target.value)
-  setNewName(event.target.value)
-}
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -30,19 +30,18 @@ const handleNameChange = (event) => {
         <div>
           name: <input 
           value={newName}
-          onChange={handleNameChange}
-          />
-          {persons.map(person => 
-            <p key={person.id}>{person.content}</p>
-            
-          )}
-        </div>
-        <div>
+          onChange={handleNameChange} />
+          </div>
+          
           <button type="submit">add</button>
-        </div>
       </form>
       <h2>Numbers</h2>
-      ...
+      
+      <ul>
+          {persons.map(person => 
+         <p key={person.name}> {person.name} </p>
+          )}
+        </ul>
     </div>
   )
 
