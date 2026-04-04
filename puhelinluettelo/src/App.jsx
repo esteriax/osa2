@@ -4,12 +4,18 @@ import { useState } from 'react'
 const App = () => {
 
   const [persons, setPersons] = useState([
-     { name: 'Arto Hellas'
-    , number: '0401234567'
-      }
+     { name: 'Arto Hellas',
+     number: '0401234567'
+      },
+      { name: 'Ella Eka', 
+        number: '0407654321' },
+      { name: 'Matti Meikäläinen',
+        number: '0401111111' },
+
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [showAll, setShowAll] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -33,17 +39,29 @@ const App = () => {
     setNewNumber('')
   }
 
+  const personsToShow = showAll === ''
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().includes(showAll.toLowerCase()))
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
-
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
+  const handleShowAll = (event) => {
+    setShowAll(event.target.value)
+  }
+
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter: <input value={showAll}
+      onChange={handleShowAll} />
+      </div>
+      <h2>Add a person</h2>
       <form onSubmit={addPerson}>
         <div>
           name: <input 
@@ -60,7 +78,7 @@ const App = () => {
       <h2>Numbers</h2>
       
       <ul>
-          {persons.map(person => 
+          {personsToShow.map(person => 
          <p key={person.name}> {person.name} {person.number} </p>
           )}
         </ul>
