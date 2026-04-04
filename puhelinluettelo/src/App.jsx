@@ -4,16 +4,24 @@ import { useState } from 'react'
 const App = () => {
 
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+     { name: 'Arto Hellas' }
   ])
   const [newName, setNewName] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
+
+    if (persons.some ((person) => person.name === newName)) {
+      {window.alert (`${newName} is already added to phonebook`)}
+      setNewName('')
+      return
+    } 
     const personObject = {
       name: newName,
       id: newName,
     }
+
+    console.log('lisätään henkilö')
     setPersons(persons.concat(personObject))
     setNewName('')
   }
@@ -21,7 +29,6 @@ const App = () => {
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
-
 
   return (
     <div>
