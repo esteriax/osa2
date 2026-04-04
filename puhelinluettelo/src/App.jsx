@@ -1,7 +1,53 @@
 import { useState } from 'react'
 
+const PersonForm = ({ addPerson, 
+  newName, 
+  handleNameChange, 
+  newNumber, 
+  handleNumberChange }) => {
+    return (
+      <form onSubmit={addPerson}>
+        <div>
+          name: <input 
+          value={newName}
+          onChange={handleNameChange} />
+          </div>
+          <div>
+            number: <input 
+            value={newNumber}
+            onChange={handleNumberChange}/>
+            </div>
+          <button type="submit">add</button>
+      </form>
+    )
+  }
+
+const Filter = ({ showAll, handleShowAll }) => {
+  return (
+    <div>
+      filter: <input value={showAll}
+    onChange={handleShowAll} />
+    </div>
+  )
+}
+
+ const Persons = ({ personsToShow }) => {
+  return (
+    <div>
+      <ul>
+      {personsToShow.map(person => 
+       <p key={person.name}> {person.name} {person.number} </p>
+        )}
+      </ul>
+    </div>
+  )
+  }
 
 const App = () => {
+
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [showAll, setShowAll] = useState('')
 
   const [persons, setPersons] = useState([
      { name: 'Arto Hellas',
@@ -13,9 +59,6 @@ const App = () => {
         number: '0401111111' },
 
   ])
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [showAll, setShowAll] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -40,8 +83,10 @@ const App = () => {
   }
 
   const personsToShow = showAll === ''
-    ? persons
-    : persons.filter(person => person.name.toLowerCase().includes(showAll.toLowerCase()))
+   ? persons
+   : persons.filter(person => person.name.toLowerCase().includes(showAll.toLowerCase()))
+
+     
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -49,42 +94,25 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
-  const handleShowAll = (event) => {
+   const handleShowAll = (event) => {
     setShowAll(event.target.value)
   }
-
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter: <input value={showAll}
-      onChange={handleShowAll} />
-      </div>
+      <Filter showAll={showAll} handleShowAll={handleShowAll} />
       <h2>Add a person</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input 
-          value={newName}
-          onChange={handleNameChange} />
-          </div>
-          <div>
-            number: <input 
-            value={newNumber}
-            onChange={handleNumberChange}/>
-            </div>
-          <button type="submit">add</button>
-      </form>
+      <PersonForm 
+      addPerson={addPerson} 
+      newName={newName} 
+      handleNameChange={handleNameChange} 
+      newNumber={newNumber} 
+      handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      
-      <ul>
-          {personsToShow.map(person => 
-         <p key={person.name}> {person.name} {person.number} </p>
-          )}
-        </ul>
+      <Persons personsToShow={personsToShow} />
     </div>
   )
-
 }
 
 export default App
