@@ -13,7 +13,7 @@ const App = () => {
 
   
   useEffect(() => {
-  console.log('effect')
+  console.log('haetaan palvelimelta')
   axios
     .get('http://localhost:3001/persons')
     .then(response => {
@@ -42,11 +42,19 @@ const App = () => {
       return
     } 
     
-
     console.log('lisätään henkilö')
     setPersons(persons.concat(personObject))
     setNewName('')
     setNewNumber('')
+
+    axios
+    .post('http://localhost:3001/persons', personObject)
+    .then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+    })
+    console.log('lisätty palvelimelle')
   }
 
   const personsToShow = filter === ''
