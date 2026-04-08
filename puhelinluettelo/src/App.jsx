@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './/components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
 
@@ -11,15 +11,15 @@ const App = () => {
   const [filter, setFilter] = useState('') 
   const [persons, setPersons] = useState([])
 
-  
-  useEffect(() => {
   console.log('haetaan palvelimelta')
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-    console.log('promise fulfilled')
-    setPersons(response.data)
-  })
+  useEffect(() => {
+    personService
+      .getAllPersons()
+      .then(personObject => {
+        console.log('promise fulfilled')
+        setPersons(personObject)
+        console.log('henkilöt haettu palvelimelta')
+      })
   }, [])
 
   const addPerson = (event) => {
@@ -30,10 +30,7 @@ const App = () => {
       id: persons.length + 1,
       number: newNumber
     }
-
-
-  console.log('render', persons.length, 'persons' )
-
+    
     if (persons.some ((person) => person.name === newName)) {
       console.log('sama henkilö')
       {window.alert (`${newName} is already added to phonebook`)}
@@ -41,27 +38,23 @@ const App = () => {
       setNewNumber('')
       return
     } 
-    
-    console.log('lisätään henkilö')
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
 
-    axios
-    .post('http://localhost:3001/persons', personObject)
-    .then(response => {
-      setPersons(persons.concat(response.data))
-      setNewName('')
-      setNewNumber('')
-    })
-    console.log('lisätty palvelimelle')
+    console.log('yritetään lisätä uutta henkilöä palvelimelle')
+     personService
+      .createPerson(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        //setFilter('')
+        setNewName('')
+        setNewNumber('')
+        console.log('uusi henkilö lisätty palvelimelle')
+      })
+
   }
 
   const personsToShow = filter === ''
    ? persons
    : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
-
-     
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)

@@ -21,24 +21,14 @@
       "id": "4"
     },
     {
-      "name": "heta",
-      "id": "RMwywR0nrOU",
-      "number": "12"
+      "name": "Testi Testi",
+      "id": "9KGg2JjYn2w",
+      "number": "12345"
     },
     {
-      "name": "moi moi",
-      "id": "Ix0O4CW9z2Q",
-      "number": "123"
-    },
-    {
-      "name": "moi",
-      "id": "DDghQL4jgzQ",
-      "number": "1"
-    },
-    {
-      "name": "hei",
-      "id": "6yAgPQ-WWCw",
-      "number": "2"
+      "name": "testi",
+      "id": "TrZLI1FFkGg",
+      "number": "4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
