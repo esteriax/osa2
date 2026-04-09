@@ -31,11 +31,19 @@ const App = () => {
       number: newNumber
     }
     
-    if (persons.some ((person) => person.name === newName)) {
+    const person = persons.find(p => p.name === newName)    
+    if (person) {
       console.log('sama henkilö')
-      {window.alert (`${newName} is already added to phonebook`)}
-      setNewName('')
-      setNewNumber('')
+      window.confirm(`${newName} is already added to phonebook, replace the old number?`)
+      console.log('yritetään päivittää uusi numero palvelimelle')
+      personService
+        .updatePerson(person.id, newNumber, newName)
+        .then(returnedPerson => {
+          setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson))
+          setNewName('')
+          setNewNumber('')
+          console.log('uusi numero päivitetty palvelimelle')
+        })
       return
     } 
 
@@ -64,6 +72,8 @@ const App = () => {
         })
     }
   }
+
+
 
   const personsToShow = filter === ''
    ? persons
