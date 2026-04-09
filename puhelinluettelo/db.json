@@ -24,11 +24,6 @@
       "name": "Testi Testi",
       "id": "9KGg2JjYn2w",
       "number": "12345"
-    },
-    {
-      "name": "testi",
-      "id": "TrZLI1FFkGg",
-      "number": "4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

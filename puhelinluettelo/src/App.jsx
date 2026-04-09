@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Filter from './/components/Filter'
+import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import personService from './services/persons'
@@ -50,6 +50,19 @@ const App = () => {
         console.log('uusi henkilö lisätty palvelimelle')
       })
 
+  } 
+
+  const removeName = (id) => {
+    console.log('Yritetään poistaa henkilö palvelimelta')
+     const person = persons.find(p => p.id === id)
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personService
+        .deletePerson(person.id)
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== id))
+          console.log('henkilö poistettu palvelimelta')
+        })
+    }
   }
 
   const personsToShow = filter === ''
@@ -65,6 +78,7 @@ const App = () => {
    const handleFilterChange = (event) => {
     setFilter(event.target.value)
   }
+
   
   return (
     <div>
@@ -78,7 +92,7 @@ const App = () => {
       newNumber={newNumber} 
       handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} removeName={removeName}/>
     </div>
   )
 }
