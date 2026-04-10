@@ -13,6 +13,7 @@ const App = () => {
   const [filter, setFilter] = useState('') 
   const [persons, setPersons] = useState([])
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   console.log('haetaan palvelimelta')
   useEffect(() => {
@@ -49,6 +50,13 @@ const App = () => {
           setSuccessMessage(`${person.name}'s number updated`)
         }, 2000)
           console.log('uusi numero päivitetty palvelimelle')
+        })
+        .catch(error => {
+          console.log('virhe päivitettäessä numeroa', error)
+          setPersons(persons.filter(p => p.id !== person.id))
+          setTimeout(() => {
+          setErrorMessage(`Information of ${person.name} has already been removed from server`)
+        }, 2000)
         })
       return
     } 
@@ -104,7 +112,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification message={successMessage} color="green"/>
+      <Notification message={errorMessage} color="red"/>
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>Add a person</h2>
       <PersonForm 
